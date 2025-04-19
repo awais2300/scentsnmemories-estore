@@ -1,0 +1,42 @@
+<div class="border-r-4 w-full h-full flex flex-col shadow-lg">
+  <img
+    [src]="product.images[0]"
+    alt="Product Image"
+    class="w-full h-52 object-cover"
+    [routerLink]="'/product/' + product._id"
+  />
+  <div class="p-4 flex flex-1 flex-col justify-between h-full">
+    <div [routerLink]="'/product/' + product._id">
+      <h6 class="mb-2">{{ product.name }}</h6>
+      <p>
+        {{ product.shortDescription }}
+      </p>
+    </div>
+    <div class="flex justify-between items-baseline">
+      <div class="flex gap-2 items-baseline">
+        <span class="!text-lg text-gray-400"
+          ><s>PKR {{ product.price }}</s></span
+        >
+        <span class="!text-xs text-orange-300"
+          >{{ product.discount }}% OFF</span
+        >
+        <span class="!text-lg text-green-500 font-bold">PKR {{ sellingPrice }}</span
+        >
+      </div>
+      <button mat-fab color="warn" (click)="addToWishList(product)">
+        @if(isInWishlist(product)){
+        <mat-icon class="text-red-500">favorite</mat-icon>
+        }@else {
+        <mat-icon class="text-red-500">favorite_border</mat-icon>
+        }
+      </button>
+      <button mat-fab color="primary" (click)="addToCart(product)">
+        @if (isProductInCart(product._id!)) {
+        <mat-icon>remove_shopping_cart</mat-icon>
+        }@else {
+        <mat-icon>add_shopping_cart</mat-icon>
+        }
+      </button>
+    </div>
+  </div>
+</div>
