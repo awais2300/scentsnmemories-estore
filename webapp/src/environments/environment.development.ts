@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://scentsnmemories-backend-e7gxc8gpdnbeckcn.canadacentral-01.azurewebsites.net/',
 };
