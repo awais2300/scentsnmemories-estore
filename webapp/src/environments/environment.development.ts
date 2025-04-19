@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://green-island-051cae60f.6.azurestaticapps.net',
 };
