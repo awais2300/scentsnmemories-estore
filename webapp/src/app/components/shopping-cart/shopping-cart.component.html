@@ -1,131 +1,132 @@
-<div class="max-w-4xl mx-auto py-12">
-  @if (orderStep==0) {
-  <h1 class="text-3xl font-bold text-center mb-8">Your Shopping Cart</h1>
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
 
-  <!-- Cart Items -->
-  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <!-- Single Cart Item -->
-    @for (item of cartItems; track $index) {
-    <div class="flex items-center justify-between p-6 border-b">
-      <div class="flex items-center">
-        <img
-          [src]="item.product.images[0]"
-          alt="Product"
-          class="w-20 h-20 object-cover rounded"
-        />
-        <div class="ml-4">
-          <h2 class="!text-xl font-semibold">{{ item.product.name }}</h2>
-          <div class="flex gap-2 items-baseline">
-            <span class="!text-lg text-gray-400"
-              ><s>PKR {{ item.product.price }}</s></span
-            >
-            <span class="!text-xs text-orange-300"
-              >{{ item.product.discount }}% OFF</span
-            >
-            <span class="!text-lg text-green-500 font-bold"
-              >PKR {{ sellingPrice(item.product) }}</span
-            >
+  <!-- Step 0: Shopping Cart -->
+  <ng-container *ngIf="orderStep === 0">
+    <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-900 tracking-tight">Your Shopping Cart</h1>
+
+    <!-- Cart Items -->
+    <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
+      <ng-container *ngFor="let item of cartItems">
+        <div class="flex items-center justify-between p-6 hover:bg-gray-50 transition rounded-xl">
+          <div class="flex items-center space-x-5">
+            <img [src]="item.product.images[0]" alt="Product Image"
+              class="w-24 h-24 object-cover rounded-lg shadow-sm" />
+            <div>
+              <h2 class="text-2xl font-semibold text-gray-900">{{ item.product.name }}</h2>
+              <div class="flex items-baseline space-x-3 mt-1">
+                <span class="text-gray-400 line-through text-base">PKR {{ item.product.price }}</span>
+                <span class="text-orange-500 text-sm font-semibold">{{ item.product.discount }}% OFF</span>
+                <span class="text-green-700 font-extrabold text-xl">PKR {{ sellingPrice(item.product) }}</span>
+              </div>
+              <div class="mt-2 text-gray-700 font-medium text-base">
+                Amount: PKR {{ sellingPrice(item.product) * item.quantity }}
+              </div>
+            </div>
           </div>
-          <div>Ammount : PKR {{ sellingPrice(item.product) * item.quantity }}</div>
-        </div>
-      </div>
-      <div class="flex items-center">
-        <div class="flex items-center">
-          <span class="mr-4">Quantity:</span>
-          <span
-            (click)="addToCart(item.product._id!, -1)"
-            class="text-lg bg-gray-400 rounded-sm px-3 py-2 shadow cursor-pointer"
-            >-</span
-          >
-          <span class="mx-2">{{ item.quantity }}</span>
-          <span
-            (click)="addToCart(item.product._id!, 1)"
-            class="text-lg bg-gray-400 rounded-sm px-3 py-2 shadow cursor-pointer"
-            >+</span
-          >
-        </div>
-      </div>
-    </div>
-    }
-    <!-- End Single Cart Item -->
 
-    <!-- Repeat for other items in the cart -->
-  </div>
-  <!-- End Cart Items -->
-
-  <!-- Cart Summary -->
-  <div class="mt-8 bg-white shadow-md rounded-lg overflow-hidden p-6">
-    <h2 class="text-xl font-bold mb-4">Cart Summary</h2>
-    <div class="flex justify-between items-center mb-4">
-      <span class="text-lg">Total:</span>
-      <span class="text-lg font-bold">{{ totalAmmount }}</span>
+          <div class="flex items-center space-x-4">
+            <span class="font-semibold text-gray-800 mr-2">Quantity:</span>
+            <button (click)="addToCart(item.product._id!, -1)"
+              class="w-10 h-10 bg-gray-300 rounded-full shadow-md flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              aria-label="Decrease quantity">
+              <span class="text-lg font-bold select-none">−</span>
+            </button>
+            <span class="w-8 text-center font-semibold text-gray-900">{{ item.quantity }}</span>
+            <button (click)="addToCart(item.product._id!, 1)"
+              class="w-10 h-10 bg-gray-300 rounded-full shadow-md flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              aria-label="Increase quantity">
+              <span class="text-lg font-bold select-none">+</span>
+            </button>
+          </div>
+        </div>
+      </ng-container>
     </div>
-    <div class="flex justify-end">
-      <button
-        (click)="checkout()"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md focus:outline-none"
-      >
+
+    <!-- Cart Summary -->
+    <div
+      class="mt-12 bg-white shadow-lg rounded-xl p-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+      <div class="text-2xl font-extrabold text-gray-900">
+        Total: PKR {{ totalAmmount }}
+      </div>
+
+      <button (click)="checkout()" [disabled]="cartService.items.length === 0"
+        class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-indigo-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed">
         Proceed to Checkout
       </button>
     </div>
-  </div>
-  <!-- End Cart Summary -->
-  }@else if (orderStep==1) {
-  <h1 class="text-3xl font-bold text-center mb-8">Your Order</h1>
-  <form [formGroup]="addressForm">
-    Address
-    <div class="mb-4">
-      <mat-form-field class="w-full">
-        <mat-label for="name">Address1</mat-label>
-        <input
-          type="text"
-          formControlName="address1"
-          matInput
-          placeholder="address1"
-        />
-      </mat-form-field>
-    </div>
-    <div class="mb-4">
-      <mat-form-field class="w-full">
-        <mat-label for="name">Address2</mat-label>
-        <input
-          type="text"
-          formControlName="address2"
-          matInput
-          placeholder="address2"
-        />
-      </mat-form-field>
-    </div>
-    <div class="mb-6">
-      <mat-form-field class="w-full">
-        <mat-label for="name">City</mat-label>
-        <input type="text" formControlName="city" matInput placeholder="city" />
-      </mat-form-field>
-    </div>
-    <div class="mb-6">
-      <mat-form-field class="w-full">
-        <mat-label for="name">PinCode</mat-label>
-        <input
-          type="text"
-          formControlName="pincode"
-          matInput
-          placeholder="pincode"
-        />
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="addAddress()">Continue</button>
-  </form>
-  }@else if (orderStep == 2) {
-  <h1 class="text-3xl font-bold text-center mb-8">Select Payment Method</h1>
-  <div class="p-30 shadow">
-    <mat-radio-group [(ngModel)]="paymentType">
-      <mat-radio-button value="cash">Cash</mat-radio-button>
-      <mat-radio-button value="card" [disabled]="true">Card</mat-radio-button>
-    </mat-radio-group>
 
-    <button class="mt-20" mat-raised-button (click)="completeOrder()">
+  </ng-container>
+
+  <!-- Step 1: Address Form -->
+  <ng-container *ngIf="orderStep === 1">
+  <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-900 tracking-tight">Your Order</h1>
+
+  <form [formGroup]="addressForm" class="space-y-8 max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg">
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Full Name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Email Address" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phone" placeholder="Phone Number" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Address 1</mat-label>
+      <input matInput formControlName="address1" placeholder="Address 1" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Address 2</mat-label>
+      <input matInput formControlName="address2" placeholder="Address 2" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" placeholder="City" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Pin Code</mat-label>
+      <input matInput formControlName="pincode" placeholder="Pin Code" required />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="w-full py-3 text-lg font-semibold rounded-xl"
+      (click)="addAddress()"
+      [disabled]="addressForm.invalid"
+    >
       Continue
     </button>
-  </div>
-  }
+  </form>
+</ng-container>
+
+
+
+  <!-- Step 2: Payment Method -->
+  <ng-container *ngIf="orderStep === 2">
+    <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-900 tracking-tight">Select Payment Method</h1>
+    <div class="max-w-sm mx-auto bg-white p-10 rounded-xl shadow-lg space-y-8">
+      <mat-radio-group [(ngModel)]="paymentType" class="flex flex-col space-y-6 text-lg font-medium text-gray-900">
+        <mat-radio-button value="cash" class="py-2">Cash</mat-radio-button>
+        <mat-radio-button value="card" disabled class="py-2 opacity-50 cursor-not-allowed">Card (Coming
+          Soon)</mat-radio-button>
+      </mat-radio-group>
+
+      <button mat-raised-button color="primary" class="w-full py-3 text-lg font-semibold rounded-xl"
+        (click)="completeOrder()">
+        Continue
+      </button>
+    </div>
+  </ng-container>
+
 </div>

@@ -2,7 +2,8 @@ const expores = require("express");
 const mongoose = require("mongoose");
 const app = expores();
 const port = process.env.PORT || 3000;
-var mongoConnection = process.env.mongoConnection || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
+var mongoConnection = process.env.mongoConnection || "mongodb://localhost:27017/e-comm-store-db";
+// || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
 const cors = require("cors");
 const categoryRoutes = require("./routes/category");
 const brandRoutes = require("./routes/brand");
@@ -12,17 +13,24 @@ const customerRoutes = require("./routes/customer");
 const authRoutes = require("./routes/auth");
 const { verifyToken, isAdmin } = require("./middleware/auth-middleware");
 const seedData = require("./handlers/data-seed");
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
+app.options('*', cors());
 app.use(expores.json());
+app.use((req, res, next) => {
+  req.user = { id: "644c1f5f0f3e2a456789abcd" };  // Replace with any fixed user ID for testing
+  next();
+});
 app.get("/", (req, res) => {
   console.log("a", mongoConnection);
   res.send("Server running is running");
 });
-app.use("/category", verifyToken, isAdmin, categoryRoutes);
-app.use("/brand", verifyToken, isAdmin, brandRoutes);
-app.use("/orders", verifyToken, isAdmin, orderRoutes);
-app.use("/product", verifyToken, isAdmin, productRoutes);
-app.use("/customer", verifyToken, customerRoutes);
+app.use("/category"/*, verifyToken*//*, isAdmin*/, categoryRoutes);
+app.use("/brand"/*, verifyToken*//*, isAdmin*/, brandRoutes);
+app.use("/orders"/*, verifyToken*//*, isAdmin*/, orderRoutes);
+app.use("/product"/*, verifyToken*//*, isAdmin*/, productRoutes);
+app.use("/customer"/*, verifyToken*/, customerRoutes);
 app.use("/auth", authRoutes);
 async function connectDb() {
   console.log("aa");

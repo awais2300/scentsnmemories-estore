@@ -1,42 +1,60 @@
-<div class="border-r-4 w-full h-full flex flex-col shadow-lg">
-  <img
-    [src]="product.images[0]"
-    alt="Product Image"
-    class="w-full h-52 object-cover"
-    [routerLink]="'/product/' + product._id"
-  />
-  <div class="p-4 flex flex-1 flex-col justify-between h-full">
-    <div [routerLink]="'/product/' + product._id">
-      <h6 class="mb-2">{{ product.name }}</h6>
-      <p>
+<div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow flex flex-col h-full overflow-hidden border border-gray-200">
+  <a [routerLink]="'/product/' + product._id">
+    <img
+      [src]="product.images[0]"
+      alt="{{ product.name }}"
+      class="w-full h-52 object-cover transition-transform hover:scale-105"
+    />
+  </a>
+
+  <div class="p-4 flex flex-col justify-between flex-grow">
+    <!-- Product Name and Description -->
+    <a [routerLink]="'/product/' + product._id">
+      <h3 class="text-lg font-semibold text-gray-800 mb-1 line-clamp-1">
+        {{ product.name }}
+      </h3>
+      <p class="text-sm text-gray-500 mb-2 line-clamp-2">
         {{ product.shortDescription }}
       </p>
-    </div>
-    <div class="flex justify-between items-baseline">
-      <div class="flex gap-2 items-baseline">
-        <span class="!text-lg text-gray-400"
-          ><s>PKR {{ product.price }}</s></span
-        >
-        <span class="!text-xs text-orange-300"
-          >{{ product.discount }}% OFF</span
-        >
-        <span class="!text-lg text-green-500 font-bold">PKR {{ sellingPrice }}</span
-        >
+    </a>
+
+    <!-- Price and Actions -->
+    <div class="mt-auto flex items-center justify-between pt-2 border-t border-gray-100">
+      <div class="flex flex-col gap-0.5">
+        <div class="text-gray-400 text-sm line-through">PKR {{ product.price }}</div>
+        <div class="text-orange-500 text-xs">{{ product.discount }}% OFF</div>
+        <div class="text-green-600 font-bold text-lg">PKR {{ sellingPrice }}</div>
       </div>
-      <button mat-fab color="warn" (click)="addToWishList(product)">
-        @if(isInWishlist(product)){
-        <mat-icon class="text-red-500">favorite</mat-icon>
-        }@else {
-        <mat-icon class="text-red-500">favorite_border</mat-icon>
-        }
-      </button>
-      <button mat-fab color="primary" (click)="addToCart(product)">
-        @if (isProductInCart(product._id!)) {
-        <mat-icon>remove_shopping_cart</mat-icon>
-        }@else {
-        <mat-icon>add_shopping_cart</mat-icon>
-        }
-      </button>
+
+      <div class="flex gap-2">
+        <!-- Wishlist Button -->
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="addToWishList(product)"
+          [matTooltip]="isInWishlist(product) ? 'Remove from Wishlist' : 'Add to Wishlist'"
+        >
+          @if (isInWishlist(product)) {
+            <mat-icon class="text-red-500">favorite</mat-icon>
+          } @else {
+            <mat-icon class="text-red-500">favorite_border</mat-icon>
+          }
+        </button>
+
+        <!-- Cart Button -->
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="addToCart(product)"
+          [matTooltip]="isProductInCart(product._id!) ? 'Remove from Cart' : 'Add to Cart'"
+        >
+          @if (isProductInCart(product._id!)) {
+            <mat-icon>remove_shopping_cart</mat-icon>
+          } @else {
+            <mat-icon>add_shopping_cart</mat-icon>
+          }
+        </button>
+      </div>
     </div>
   </div>
 </div>

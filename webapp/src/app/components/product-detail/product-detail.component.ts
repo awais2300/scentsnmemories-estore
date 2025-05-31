@@ -7,11 +7,12 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 import { WishlistService } from '../../services/wishlist.service';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [MatButtonModule, ProductCardComponent,MatIconModule],
+  imports: [MatButtonModule, ProductCardComponent,MatIconModule, CommonModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })

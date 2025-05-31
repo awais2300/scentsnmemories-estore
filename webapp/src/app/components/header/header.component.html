@@ -1,48 +1,56 @@
 <header class="site-header">
-  <div class="top-bar">
+  <div class="top-bar flex items-center justify-between px-4 py-2">
+    <!-- Logo -->
     <div class="logo cursor-pointer" routerLink="/">
-      <img src="https://i.postimg.cc/hP3TqqKP/white-text-no-background.png" alt="Website Logo">
-      <!-- <span>ScentsnMemories</span> -->
+      <img src="https://i.postimg.cc/hP3TqqKP/white-text-no-background.png" alt="Website Logo" />
     </div>
-    <div class="search-bar">
+
+    <!-- Search Bar -->
+    <div class="search-bar flex items-center">
       <input
         type="text"
         placeholder="Search..."
         [(ngModel)]="searchTerm"
         (keyup.enter)="onSearch($event)"
+        class="border rounded-l px-3 py-1"
       />
-      <button type="submit"><i class="fas fa-search"></i></button>
+      <button type="submit" class="bg-gray-700 text-white px-3 py-1 rounded-r">
+        <i class="fas fa-search"></i>
+      </button>
     </div>
-    <div class="profile flex gap-2 items-center">
-      @if (authService.isAdmin) {
-      <a routerLink="/admin">{{ authService.userName }}</a>
-      }@else {
-      <a routerLink="/profile">{{ authService.userName }}</a>
-      } @if(authService.isLoggedIn ){ @if(!authService.isAdmin){
-      <a routerLink="/wishlists"
-        ><mat-icon class="text-red-500">favorite</mat-icon></a
-      >
-      <a routerLink="/cart"
-        ><mat-icon class="text-white">shopping_cart</mat-icon></a
-      >
-      <a routerLink="/orders">Orders</a>
-      }
-      <a (click)="logout()" class="cursor-pointer ml-2">Logout</a>
-      }@else {
-      <a routerLink="/login" class="cursor-pointer ml-2">Log In</a>
-      <a routerLink="/register" class="cursor-pointer ml-2">Register</a>
-      }
+
+    <!-- Profile & Actions -->
+    <div class="profile flex gap-4 items-center">
+      <a routerLink="/wishlists" class="text-white relative">
+        <mat-icon class="text-red-500">favorite</mat-icon>
+      </a>
+
+      <!-- Cart Icon with Item Count Badge -->
+      <a routerLink="/cart" class="text-white relative">
+        <mat-icon>shopping_cart</mat-icon>
+        <span *ngIf="cartItemCount > 0"
+              class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 h-5 min-w-[1.25rem] flex items-center justify-center leading-none">
+          {{ cartItemCount }}
+        </span>
+      </a>
+
+      <!-- Orders -->
+      <a routerLink="/orders" class="text-white">Orders</a>
+
+      <!-- Auth Links -->
+      <a routerLink="/login" class="cursor-pointer ml-2 text-white">Log In</a>
+      <a routerLink="/register" class="cursor-pointer ml-2 text-white">Register</a>
     </div>
   </div>
-  @if (authService.isLoggedIn) {
-  <nav class="category-menu">
-    <ul>
-      @for (category of categoryList; track $index) {
-      <li (click)="searchCategory(category._id!)" class="cursor-pointer">
-        <a>{{ category.name }}</a>
+
+  <!-- Category Menu -->
+  <nav class="category-menu bg-gray-800 text-white py-2">
+    <ul class="flex space-x-4 justify-center">
+      <li *ngFor="let category of categoryList"
+          (click)="searchCategory(category._id!)"
+          class="cursor-pointer hover:text-orange-400">
+        {{ category.name }}
       </li>
-      }
     </ul>
   </nav>
-  }
 </header>

@@ -1,13 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../types/product';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../types/order';
 import { Router } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,6 +21,7 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatRadioModule,
     FormsModule,
+    CommonModule
   ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss',
@@ -51,10 +55,13 @@ export class ShoppingCartComponent {
   formbuilder = inject(FormBuilder);
   paymentType = 'cash';
   addressForm = this.formbuilder.group({
-    address1: [''],
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+    address1: ['', Validators.required],
     address2: [''],
-    city: [''],
-    pincode: [''],
+    city: ['', Validators.required],
+    pincode: ['', Validators.required]
   });
   checkout() {
     this.orderStep = 1;
