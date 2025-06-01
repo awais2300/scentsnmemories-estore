@@ -16,7 +16,7 @@ const { verifyToken, isAdmin } = require("./middleware/auth-middleware");
 const seedData = require("./handlers/data-seed");
 app.use(cors({
   
-  origin: 'https://gray-forest-06c81221e.6.azurestaticapps.net/'
+  origin: 'https://gray-forest-06c81221e.6.azurestaticapps.net'
   //origin: 'http://localhost:4200'
 }));
 app.options('*', cors());
