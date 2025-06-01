@@ -59,6 +59,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'scentsnmemories-azure'
-          slot-name: 'Production'
+          slot-name: 'Production' 
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_133E73BA00BA431F92D179F2F18A9169 }}
