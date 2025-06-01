@@ -33,7 +33,7 @@ jobs:
           action: "upload"
           app_location: "./webapp"           # Adjust if your app source is elsewhere
           api_location: ""                   # Optional, leave empty if not using API
-          output_location: "dist/webapp"     # Path to the production-ready files after build
+          output_location: "dist/webapp/browser"     # Path to the production-ready files after build
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
