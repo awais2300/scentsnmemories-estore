@@ -7,7 +7,7 @@ var mongoConnection = process.env.mongoConnection || "mongodb://scentsnmemories-
 // || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
 const cors = require("cors");
 app.use(cors({
-  origin: 'https://gray-forest-06c81221e.6.azurestaticapps.net',
+  origin: 'https://www.scentsnmemories.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
