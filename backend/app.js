@@ -37,20 +37,21 @@ app.use("/product"/*, verifyToken*//*, isAdmin*/, productRoutes);
 app.use("/customer"/*, verifyToken*/, customerRoutes);
 app.use("/auth", authRoutes);
 async function connectDb() {
-  console.log("aa");
+  console.log("Connecting to MongoDB...");
   await mongoose.connect(mongoConnection, {
     dbName: "e-comm-store-db",
   });
-  console.log("mongodb connected");
-  await seedData();
-}
-try {
-  connectDb().catch((err) => {
-    console.error(err);
+  console.log("MongoDB connected");
+
+  await seedData(); // If seedData runs model operations, this is fine here
+
+  // Start server only after DB connection and seed
+  app.listen(port, () => {
+    console.log("Server running on port", port);
   });
-} catch (e) {
-  console.log(e);
 }
-app.listen(port, () => {
-  console.log("Server running on port", port);
+
+connectDb().catch((err) => {
+  console.error("Failed to connect to MongoDB:", err);
+  process.exit(1); // Exit the app if DB connection fails
 });
