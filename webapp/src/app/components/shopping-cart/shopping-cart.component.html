@@ -4,7 +4,7 @@
 
   <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
     <ng-container *ngFor="let item of cartItems">
-      <div class="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 hover:bg-gray-50 rounded-xl gap-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 hover:bg-gray-50 rounded-xl gap-4 sm:gap-6">
         <div class="flex items-start sm:items-center gap-4 flex-1">
           <img [src]="item.product.images[0]"
             alt="Product Image"
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Quantity Controls -->
-        <div class="flex items-center gap-2 text-sm">
+        <div class="flex items-center gap-2 text-sm w-full sm:w-auto justify-start sm:justify-end">
           <span class="font-medium text-gray-800">Qty:</span>
           <button (click)="addToCart(item.product, -1)" class="w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400">−</button>
           <span class="w-6 text-center">{{ item.quantity }}</span>
@@ -34,7 +34,7 @@
   </div>
 
   <!-- Cart Summary -->
-  <div class="mt-8 bg-white shadow-lg rounded-xl p-6 sm:flex justify-between items-center space-y-4 sm:space-y-0">
+  <div class="mt-8 bg-white shadow-lg rounded-xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
     <div class="text-lg font-bold text-gray-900">
       Total: PKR {{ totalAmmount | number:'1.2-2' }}
     </div>
@@ -97,7 +97,7 @@
       </mat-radio-group>
     </div>
 
-    <div class="flex justify-between pt-4">
+    <div class="flex flex-col sm:flex-row justify-between gap-4 pt-4">
       <button type="button" (click)="orderStep = 0" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded font-semibold">
         ← Back to Cart
       </button>
@@ -137,7 +137,7 @@
       <div><strong>Payment:</strong> Cash on Delivery</div>
     </div>
 
-    <div class="flex justify-between mt-6">
+    <div class="flex flex-col sm:flex-row justify-between gap-4 mt-6">
       <button type="button" (click)="orderStep = 1"
         class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold">
         ← Edit Address
