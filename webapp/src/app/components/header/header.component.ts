@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   authService = inject(AuthService);
   router = inject(Router);
   cartService = inject(CartService);
-
+  mobileMenuOpen = false;
   searchTerm!: string;
   cartItemCount = 0;
   private cartSub!: Subscription;

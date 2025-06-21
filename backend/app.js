@@ -2,15 +2,27 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 3000 || 10255;
-var mongoConnection = process.env.mongoConnection || "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
-//"mongodb://localhost:27017/e-comm-store-db";
+var mongoConnection = process.env.mongoConnection 
+|| "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@"
+|| "mongodb://localhost:27017/e-comm-store-db";
 // || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
 const cors = require("cors");
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://www.scentsnmemories.com'
+];
+
 app.use(cors({
-  origin: 'https://gray-forest-06c81221e.6.azurestaticapps.net',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS policy violation: Origin not allowed'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,  // if you use cookies/auth headers
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.options('*', cors()); // enable preflight requests for all routes

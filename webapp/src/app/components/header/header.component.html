@@ -1,54 +1,82 @@
-<header class="site-header">
-  <div class="top-bar flex items-center justify-between px-4 py-2">
+<header class="site-header bg-gray-900 text-white">
+  <!-- Top Bar -->
+  <div class="top-bar flex flex-wrap items-center justify-between px-4 py-2">
+    
     <!-- Logo -->
     <div class="logo cursor-pointer" routerLink="/">
-      <img src="https://i.postimg.cc/hP3TqqKP/white-text-no-background.png" alt="Website Logo" />
+      <img
+        src="https://i.postimg.cc/hP3TqqKP/white-text-no-background.png"
+        alt="Website Logo"
+        class="h-10"
+      />
     </div>
 
-    <!-- Search Bar -->
-    <div class="search-bar flex items-center">
+    <!-- Mobile Hamburger Icon -->
+    <div class="md:hidden">
+      <button (click)="mobileMenuOpen = !mobileMenuOpen">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Search Bar (Only shown on md and above) -->
+    <div class="search-bar hidden md:flex items-center flex-1 mx-4">
       <input
         type="text"
         placeholder="Search..."
         [(ngModel)]="searchTerm"
         (keyup.enter)="onSearch($event)"
-        class="border rounded-l px-3 py-1"
+        class="border rounded-l px-3 py-1 w-full max-w-md text-black"
       />
       <button type="submit" class="bg-gray-700 text-white px-3 py-1 rounded-r">
         <i class="fas fa-search"></i>
       </button>
     </div>
 
-    <!-- Profile & Actions -->
-    <div class="profile flex gap-4 items-center">
-      <a routerLink="/wishlists" class="text-white relative">
+    <!-- Profile & Actions (Hidden on mobile, shown on md+) -->
+    <div class="profile hidden md:flex gap-4 items-center">
+      <a routerLink="/wishlists" class="relative">
         <mat-icon class="text-red-500">favorite</mat-icon>
       </a>
 
-      <!-- Cart Icon with Item Count Badge -->
-      <a routerLink="/cart" class="text-white relative">
+      <a routerLink="/cart" class="relative">
         <mat-icon>shopping_cart</mat-icon>
-        <span *ngIf="cartItemCount > 0"
-              class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 h-5 min-w-[1.25rem] flex items-center justify-center leading-none">
+        <span
+          *ngIf="cartItemCount > 0"
+          class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 h-5 min-w-[1.25rem] flex items-center justify-center leading-none"
+        >
           {{ cartItemCount }}
         </span>
       </a>
 
-      <!-- Orders -->
-      <a routerLink="/orders" class="text-white">Orders</a>
+      <a routerLink="/orders">Orders</a>
+      <a routerLink="/login" class="ml-2">Log In</a>
+      <a routerLink="/register" class="ml-2">Register</a>
+    </div>
+  </div>
 
-      <!-- Auth Links -->
-      <a routerLink="/login" class="cursor-pointer ml-2 text-white">Log In</a>
-      <a routerLink="/register" class="cursor-pointer ml-2 text-white">Register</a>
+  <!-- Mobile Menu (no search bar) -->
+  <div *ngIf="mobileMenuOpen" class="md:hidden px-4 py-2 space-y-2 bg-gray-800 text-white">
+    <div class="flex flex-col gap-2 pt-2">
+      <a routerLink="/wishlists" class="flex items-center gap-2">
+        <mat-icon class="text-red-500">favorite</mat-icon> Wishlist
+      </a>
+      <a routerLink="/cart" class="flex items-center gap-2">
+        <mat-icon>shopping_cart</mat-icon> Cart ({{ cartItemCount }})
+      </a>
+      <a routerLink="/orders">Orders</a>
+      <a routerLink="/login">Log In</a>
+      <a routerLink="/register">Register</a>
     </div>
   </div>
 
   <!-- Category Menu -->
-  <nav class="category-menu bg-gray-800 text-white py-2">
-    <ul class="flex space-x-4 justify-center">
-      <li *ngFor="let category of categoryList"
-          (click)="searchCategory(category._id!)"
-          class="cursor-pointer hover:text-orange-400">
+  <nav class="category-menu bg-gray-800 py-2">
+    <ul class="flex flex-wrap space-x-2 md:space-x-4 justify-center px-2 text-sm md:text-base">
+      <li
+        *ngFor="let category of categoryList"
+        (click)="searchCategory(category._id!)"
+        class="cursor-pointer hover:text-orange-400"
+      >
         {{ category.name }}
       </li>
     </ul>
