@@ -2,15 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 3000 || 10255;
-var mongoConnection = process.env.mongoConnection 
-|| "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@"
-||"mongodb://localhost:27017/e-comm-store-db";
+var mongoConnection = process.env.mongoConnection || "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
+//"mongodb://localhost:27017/e-comm-store-db";
+// || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
 const cors = require("cors");
-const allowedOrigins = [
-  'http://localhost:4200',
-  'https://www.scentsnmemories.com'
-];
-
 app.use(cors({
   origin: 'https://gray-forest-06c81221e.6.azurestaticapps.net',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -18,7 +13,7 @@ app.use(cors({
   credentials: true,  // if you use cookies/auth headers
 }));
 
-//app.options('*', cors()); // enable preflight requests for all routes
+app.options('*', cors()); // enable preflight requests for all routes
 app.use(express.json());
 const categoryRoutes = require("./routes/category");
 const brandRoutes = require("./routes/brand");
@@ -44,21 +39,20 @@ app.use("/product"/*, verifyToken*//*, isAdmin*/, productRoutes);
 app.use("/customer"/*, verifyToken*/, customerRoutes);
 app.use("/auth", authRoutes);
 async function connectDb() {
-  console.log("Connecting to MongoDB...");
+  console.log("aa");
   await mongoose.connect(mongoConnection, {
     dbName: "e-comm-store-db",
   });
-  console.log("MongoDB connected");
-
-  await seedData(); // If seedData runs model operations, this is fine here
-
-  // Start server only after DB connection and seed
-  app.listen(port, () => {
-    console.log("Server running on port", port);
-  });
+  console.log("mongodb connected");
+  await seedData();
 }
-
-connectDb().catch((err) => {
-  console.error("Failed to connect to MongoDB:", err);
-  process.exit(1); // Exit the app if DB connection fails
+try {
+  connectDb().catch((err) => {
+    console.error(err);
+  });
+} catch (e) {
+  console.log(e);
+}
+app.listen(port, () => {
+  console.log("Server running on port", port);
 });
