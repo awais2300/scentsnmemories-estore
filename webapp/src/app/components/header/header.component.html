@@ -1,3 +1,8 @@
+<div class="bg-gray-800 text-white text-sm py-1 overflow-hidden relative">
+  <div class="animate-marquee whitespace-nowrap px-4">
+    Free shipping on orders above Rs. 2000 &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Only COD Available &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Delivery in 3 - 5 Days all over Pakistan
+  </div>
+</div>
 <header class="site-header bg-gray-900 text-white">
   <!-- Top Bar -->
   <div class="top-bar flex flex-wrap items-center justify-between px-4 py-2">
@@ -23,7 +28,8 @@
         </span>
       </a>
       <button (click)="mobileMenuOpen = !mobileMenuOpen">
-        <i class="fas fa-bars text-xl"></i>
+        <i *ngIf="!mobileMenuOpen" class="fas fa-bars text-xl"></i>
+        <i *ngIf="mobileMenuOpen" class="fas fa-times text-xl"></i>
       </button>
     </div>
 
@@ -75,7 +81,7 @@
   </div>
 
   <!-- Category Menu -->
-  <nav class="category-menu bg-gray-800 py-2">
+  <!-- <nav class="category-menu bg-gray-800 py-2">
     <ul class="flex flex-wrap space-x-2 md:space-x-4 justify-center px-2 text-sm md:text-base">
       <li
         *ngFor="let category of categoryList"
@@ -85,5 +91,5 @@
         {{ category.name }}
       </li>
     </ul>
-  </nav>
+  </nav> -->
 </header>

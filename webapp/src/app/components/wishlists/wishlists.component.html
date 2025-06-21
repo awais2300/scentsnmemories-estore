@@ -1,11 +1,14 @@
-<div class="px-40 py-10">
-  <div class="flex flex-wrap">
+<div class="px-4 sm:px-6 md:px-10 lg:px-20 py-6">
+  <div class="flex flex-wrap gap-4 justify-center">
     @for (product of wishlistService.wishlists; track $index) {
-    <div class="w-3/12 shadow">
-      <app-product-card [product]="product"></app-product-card>
-    </div>
-    }@empty {
-    <h4>Not Items in wishlist</h4>
+      <div class="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 shadow rounded-md">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    }
+    @empty {
+      <h4 class="text-center w-full text-base sm:text-lg font-medium text-gray-600 mt-4">
+        No items in wishlist
+      </h4>
     }
   </div>
 </div>
