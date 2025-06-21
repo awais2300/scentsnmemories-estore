@@ -45,8 +45,8 @@ export class ShoppingCartComponent {
     return Math.round(product.price - (product.price * product.discount) / 100);
   }
 
-  addToCart(productId: string, quantity: number) {
-    this.cartService.addToCart(productId, quantity); // no init needed
+  addToCart(product: Product, quantity: number) {
+    this.cartService.addToCart(product, quantity); // no init needed
   }
 
   get totalAmmount(): number {
@@ -63,6 +63,7 @@ export class ShoppingCartComponent {
     address2: [''],
     city: ['', Validators.required],
     pincode: ['', Validators.required],
+    paymentType: ['cash', Validators.required]  // ✅ Added this line
   });
 
   checkout() {
@@ -82,10 +83,14 @@ export class ShoppingCartComponent {
     };
 
     this.orderService.addOrder(order).subscribe(() => {
-      alert('Your order is completed');
-      this.cartService.clearCart(); // ✅ Clear localStorage + BehaviorSubject
+      this.cartService.clearCart();
       this.orderStep = 0;
-      this.router.navigateByUrl('/orders');
+      //this.router.navigateByUrl('/orders');
+      this.orderStep = 3;
     });
+  }
+
+  goToHome() {
+    this.router.navigateByUrl('/');
   }
 }

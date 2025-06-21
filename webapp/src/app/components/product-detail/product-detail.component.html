@@ -19,17 +19,18 @@
 
     <!-- Right Side: Info -->
     <div>
-      <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">{{ product.name }}</h2>
+      <h4 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">{{ product.name }}</h4>
       <p class="text-sm sm:text-base text-gray-600 mb-4">{{ product.shortDescription }}</p>
 
       <!-- Pricing -->
       <div class="flex items-center gap-3 mb-6">
-        <span class="text-gray-400 line-through text-sm sm:text-base">PKR.{{ product.price }}</span>
+        <span class="text-gray-400 line-through text-sm sm:text-base">PKR.{{ product.price | number:'1.2-2'}}</span>
         <span class="text-orange-500 font-semibold text-sm sm:text-base">{{ product.discount }}% OFF</span>
-        <span class="text-green-600 font-bold text-lg sm:text-xl">PKR.{{ sellingPrice }}</span>
+        <span class="text-green-600 font-bold text-lg sm:text-xl">PKR.{{ sellingPrice | number:'1.2-2'}}</span>
       </div>
 
       <!-- Actions -->
+      <!-- Add to Cart Button -->
       <button *ngIf="!isProductInCart(product._id!)" (click)="addToCart(product)"
         class="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400"
         aria-label="Add to Cart">
@@ -42,6 +43,7 @@
         aria-label="Remove from Cart">
         <mat-icon class="text-white text-base sm:text-lg">remove_shopping_cart</mat-icon> Remove from Cart
       </button>
+
 
       <!-- Added Features -->
       <div class="mt-8 space-y-3 text-sm sm:text-base text-gray-700">

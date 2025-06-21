@@ -3,11 +3,12 @@ import { Order } from '../../types/order';
 import { OrderService } from '../../services/order.service';
 import { Product } from '../../types/product';
 import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer-orders',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, CommonModule],
   templateUrl: './customer-orders.component.html',
   styleUrl: './customer-orders.component.scss',
 })

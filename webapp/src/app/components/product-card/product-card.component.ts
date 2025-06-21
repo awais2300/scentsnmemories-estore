@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { WishlistService } from '../../services/wishlist.service';
 import { CartService } from '../../services/cart.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [MatButtonModule, RouterLink, MatIconModule, MatTooltipModule],
+  imports: [MatButtonModule, RouterLink, MatIconModule, MatTooltipModule, CommonModule],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
@@ -44,9 +45,9 @@ export class ProductCardComponent {
 
   addToCart(product: Product) {
     if (!this.isProductInCart(product._id!)) {
-      this.cartService.addToCart(product._id!, 1);
+      this.cartService.addToCart(product!, 1);
     } else {
-      this.cartService.removeFromCart(product._id!);
+      this.cartService.addToCart(product!,-1);
     }
     //this.cartService.init(); // Refresh cart from localStorage
   }

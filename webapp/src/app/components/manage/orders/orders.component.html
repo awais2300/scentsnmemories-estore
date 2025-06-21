@@ -40,17 +40,17 @@
             <h2 class="!text-xl font-semibold">{{ item.product.name }}</h2>
             <div class="flex gap-2 items-baseline">
               <span class="!text-lg text-gray-400"
-                ><s>{{ item.product.price }}₹</s></span
+                ><s>PKR {{ item.product.price | number:'1.2-2'}}</s></span
               >
               <span class="!text-xs text-orange-300"
                 >{{ item.product.discount }}% OFF</span
               >
               <span class="!text-lg text-green-500 font-bold"
-                >{{ sellingPrice(item.product) }}₹</span
+                >PKR {{ sellingPrice(item.product) | number:'1.2-2'}}</span
               >
             </div>
             <div>
-              Ammount : {{ sellingPrice(item.product) * item.quantity }}₹
+              Ammount : PKR {{ sellingPrice(item.product) * item.quantity | number:'1.2-2'}}
             </div>
           </div>
         </div>

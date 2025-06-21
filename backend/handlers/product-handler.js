@@ -74,9 +74,6 @@ async function getProductForListing(
   }
   console.log("queryFilter", queryFilter);
   const products = await Product.find(queryFilter)
-    .sort({
-      [sortBy]: +sortOrder,
-    })
     .skip((+page - 1) * +pageSize)
     .limit(+pageSize);
   return products.map((x) => x.toObject());

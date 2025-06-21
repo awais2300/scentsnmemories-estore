@@ -78,7 +78,7 @@ export class ProductDetailComponent {
 
   addToCart(product: Product) {
     if (!this.isProductInCart(product._id!)) {
-      this.cartService.addToCart(product._id!, 1);
+      this.cartService.addToCart(product!, 1);
     } else {
       this.cartService.removeFromCart(product._id!);
     }
