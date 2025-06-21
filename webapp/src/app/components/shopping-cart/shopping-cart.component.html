@@ -4,15 +4,13 @@
   <!-- Cart Items -->
   <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
     <ng-container *ngFor="let item of cartItems">
-      <div class="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition rounded-xl gap-4">
-        
+      <div
+        class="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition rounded-xl gap-4">
+
         <!-- Product Image & Info -->
         <div class="flex items-start sm:items-center gap-4 flex-1">
-          <img
-            [src]="(item.product.images && item.product.images.length > 0) ? item.product.images[0] : ''"
-            alt="Product Image"
-            class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm"
-          />
+          <img [src]="(item.product.images && item.product.images.length > 0) ? item.product.images[0] : ''"
+            alt="Product Image" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm" />
           <div>
             <h4 class="text-base sm:text-lg font-semibold text-gray-900">{{ item.product.name }}</h4>
             <div class="flex items-baseline space-x-2 mt-1 text-sm sm:text-base">
@@ -27,14 +25,17 @@
         </div>
 
         <!-- Quantity Controls -->
-        <div class="flex items-center gap-2 text-sm sm:text-base">
+        <div class="flex items-center gap-2 text-sm sm:text-base" *ngIf="item.product && item.product._id">
           <span class="font-medium text-gray-800">Qty:</span>
-          <button (click)="addToCart(item.product._id!, -1)"
+
+          <button (click)="addToCart(item.product._id, -1)"
             class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
             <span class="text-lg font-bold">−</span>
           </button>
+
           <span class="w-6 text-center font-semibold text-gray-900">{{ item.quantity }}</span>
-          <button (click)="addToCart(item.product._id!, 1)"
+
+          <button (click)="addToCart(item.product._id, 1)"
             class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
             <span class="text-lg font-bold">+</span>
           </button>

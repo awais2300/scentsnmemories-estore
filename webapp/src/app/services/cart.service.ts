@@ -42,8 +42,12 @@ export class CartService {
     return this._items.value;
   }
 
-  // Add or update quantity in cart
   addToCart(product: any, quantity: number) {
+    if (!product || !product._id) {
+      console.warn('Invalid product passed to addToCart:', product);
+      return;
+    }
+
     const updated = [...this.items];
     const index = updated.findIndex(item => item.product._id === product._id);
 
@@ -59,6 +63,7 @@ export class CartService {
     this._items.next(updated);
     this.saveCartToStorage();
   }
+
 
   // Remove item completely
   removeFromCart(productId: string) {
