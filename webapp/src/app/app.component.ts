@@ -21,7 +21,7 @@ export class AppComponent {
   ngOnInit() {
     if (this.authService.isLoggedIn) {
       this.wishlistService.init();
-      this.cartService.init();
+      //this.cartService.init();
     }
   }
 }

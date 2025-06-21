@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     // Initialize cart items if not already done
-    this.cartService.init();
+    //this.cartService.init();
   }
 
   onSearch(e: any) {

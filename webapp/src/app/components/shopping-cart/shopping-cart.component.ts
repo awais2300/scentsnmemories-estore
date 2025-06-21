@@ -8,9 +8,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../types/order';
 import { Router } from '@angular/router';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-shopping-cart',
@@ -21,39 +19,42 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatRadioModule,
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss',
 })
 export class ShoppingCartComponent {
   cartService = inject(CartService);
-  ngOnInit() {
-    this.cartService.init();
-  }
+  formbuilder = inject(FormBuilder);
+  orderService = inject(OrderService);
+  router = inject(Router);
+
+  orderStep = 0;
+  paymentType = 'cash';
+
   get cartItems() {
     return this.cartService.items;
   }
 
-  sellingPrice(product: Product) {
+  ngOnInit() {
+    // No need to call cartService.init() with localStorage version
+  }
+
+  sellingPrice(product: Product): number {
     return Math.round(product.price - (product.price * product.discount) / 100);
   }
+
   addToCart(productId: string, quantity: number) {
-    this.cartService.addToCart(productId, quantity).subscribe((result) => {
-      this.cartService.init();
-    });
+    this.cartService.addToCart(productId, quantity); // no init needed
   }
-  get totalAmmount() {
-    let ammount = 0;
-    for (let index = 0; index < this.cartItems.length; index++) {
-      const element = this.cartItems[index];
-      ammount += this.sellingPrice(element.product) * element.quantity;
-    }
-    return ammount;
+
+  get totalAmmount(): number {
+    return this.cartItems.reduce((total, item) => {
+      return total + this.sellingPrice(item.product) * item.quantity;
+    }, 0);
   }
-  orderStep: number = 0;
-  formbuilder = inject(FormBuilder);
-  paymentType = 'cash';
+
   addressForm = this.formbuilder.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -61,26 +62,28 @@ export class ShoppingCartComponent {
     address1: ['', Validators.required],
     address2: [''],
     city: ['', Validators.required],
-    pincode: ['', Validators.required]
+    pincode: ['', Validators.required],
   });
+
   checkout() {
     this.orderStep = 1;
   }
+
   addAddress() {
     this.orderStep = 2;
   }
-  orderService = inject(OrderService);
-  router = inject(Router);
+
   completeOrder() {
-    let order: Order = {
+    const order: Order = {
       items: this.cartItems,
       paymentType: this.paymentType,
       address: this.addressForm.value,
       date: new Date(),
     };
-    this.orderService.addOrder(order).subscribe((result) => {
+
+    this.orderService.addOrder(order).subscribe(() => {
       alert('Your order is completed');
-      this.cartService.init();
+      this.cartService.clearCart(); // ✅ Clear localStorage + BehaviorSubject
       this.orderStep = 0;
       this.router.navigateByUrl('/orders');
     });
