@@ -1,122 +1,57 @@
-<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-  <!-- Step 0: Shopping Cart -->
-  <ng-container *ngIf="orderStep === 0">
-    <h4 class="text-xl sm:text-2xl font-bold text-center mb-8 text-gray-900 tracking-tight">Your Shopping Cart</h4>
+<ng-container *ngIf="orderStep === 0">
+  <h4 class="text-xl sm:text-2xl font-bold text-center mb-8 text-gray-900 tracking-tight">Your Shopping Cart</h4>
 
-    <!-- Cart Items -->
-    <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
-      <ng-container *ngFor="let item of cartItems">
-        <div class="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition rounded-xl gap-4">
-          <div class="flex items-start sm:items-center gap-4">
-            <img [src]="item.product.images[0]" alt="Product Image"
-              class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm" />
-            <div>
-              <h4 class="text-base sm:text-lg font-semibold text-gray-900">{{ item.product.name }}</h4>
-              <div class="flex items-baseline space-x-2 mt-1 text-sm sm:text-base">
-                <span class="text-gray-400 line-through">PKR {{ item.product.price }}</span>
-                <span class="text-orange-500 font-semibold">{{ item.product.discount }}% OFF</span>
-                <span class="text-green-700 font-bold">PKR {{ sellingPrice(item.product) }}</span>
-              </div>
-              <div class="mt-1 text-gray-700 font-medium text-sm sm:text-base">
-                Amount: PKR {{ sellingPrice(item.product) * item.quantity }}
-              </div>
+  <!-- Cart Items -->
+  <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
+    <ng-container *ngFor="let item of cartItems">
+      <div class="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition rounded-xl gap-4">
+        
+        <!-- Product Image & Info -->
+        <div class="flex items-start sm:items-center gap-4 flex-1">
+          <img
+            [src]="(item.product.images && item.product.images.length > 0) ? item.product.images[0] : 'assets/placeholder.png'"
+            alt="Product Image"
+            class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm"
+          />
+          <div>
+            <h4 class="text-base sm:text-lg font-semibold text-gray-900">{{ item.product.name }}</h4>
+            <div class="flex items-baseline space-x-2 mt-1 text-sm sm:text-base">
+              <span class="text-gray-400 line-through">PKR {{ item.product.price }}</span>
+              <span class="text-orange-500 font-semibold">{{ item.product.discount }}% OFF</span>
+              <span class="text-green-700 font-bold">PKR {{ sellingPrice(item.product) }}</span>
+            </div>
+            <div class="mt-1 text-gray-700 font-medium text-sm sm:text-base">
+              Amount: PKR {{ sellingPrice(item.product) * item.quantity }}
             </div>
           </div>
-
-          <div class="flex items-center gap-2 text-sm sm:text-base">
-            <span class="font-medium text-gray-800">Qty:</span>
-            <button (click)="addToCart(item.product._id!, -1)"
-              class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
-              <span class="text-lg font-bold">−</span>
-            </button>
-            <span class="w-6 text-center font-semibold text-gray-900">{{ item.quantity }}</span>
-            <button (click)="addToCart(item.product._id!, 1)"
-              class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
-              <span class="text-lg font-bold">+</span>
-            </button>
-          </div>
         </div>
-      </ng-container>
-    </div>
 
-    <!-- Cart Summary -->
-    <div class="mt-8 bg-white shadow-lg rounded-xl p-6 sm:flex justify-between items-center space-y-4 sm:space-y-0">
-      <div class="text-lg font-bold text-gray-900">
-        Total: PKR {{ totalAmmount }}
+        <!-- Quantity Controls -->
+        <div class="flex items-center gap-2 text-sm sm:text-base">
+          <span class="font-medium text-gray-800">Qty:</span>
+          <button (click)="addToCart(item.product._id!, -1)"
+            class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+            <span class="text-lg font-bold">−</span>
+          </button>
+          <span class="w-6 text-center font-semibold text-gray-900">{{ item.quantity }}</span>
+          <button (click)="addToCart(item.product._id!, 1)"
+            class="w-8 h-8 bg-gray-300 rounded-full shadow flex items-center justify-center hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+            <span class="text-lg font-bold">+</span>
+          </button>
+        </div>
       </div>
+    </ng-container>
+  </div>
 
-      <button (click)="checkout()" [disabled]="cartService.items.length === 0"
-        class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-indigo-700 hover:to-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base">
-        Proceed to Checkout
-      </button>
+  <!-- Cart Summary -->
+  <div class="mt-8 bg-white shadow-lg rounded-xl p-6 sm:flex justify-between items-center space-y-4 sm:space-y-0">
+    <div class="text-lg font-bold text-gray-900">
+      Total: PKR {{ totalAmmount }}
     </div>
-  </ng-container>
 
-  <!-- Step 1: Address Form -->
-  <ng-container *ngIf="orderStep === 1">
-    <h1 class="text-xl sm:text-2xl font-bold text-center mb-8 text-gray-900 tracking-tight">Your Order</h1>
-
-    <form [formGroup]="addressForm" class="space-y-6 max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" placeholder="Full Name" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" placeholder="Email Address" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Phone Number</mat-label>
-        <input matInput formControlName="phone" placeholder="Phone Number" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Address 1</mat-label>
-        <input matInput formControlName="address1" placeholder="Address 1" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Address 2</mat-label>
-        <input matInput formControlName="address2" placeholder="Address 2" />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city" placeholder="City" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Pin Code</mat-label>
-        <input matInput formControlName="pincode" placeholder="Pin Code" required />
-      </mat-form-field>
-
-      <button mat-raised-button color="primary"
-        class="w-full py-3 text-sm sm:text-base font-semibold rounded-xl"
-        (click)="addAddress()" [disabled]="addressForm.invalid">
-        Continue
-      </button>
-    </form>
-  </ng-container>
-
-  <!-- Step 2: Payment Method -->
-  <ng-container *ngIf="orderStep === 2">
-    <h1 class="text-xl sm:text-2xl font-bold text-center mb-8 text-gray-900 tracking-tight">Select Payment Method</h1>
-
-    <div class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-lg space-y-6">
-      <mat-radio-group [(ngModel)]="paymentType" class="flex flex-col space-y-4 text-sm sm:text-base font-medium text-gray-900">
-        <mat-radio-button value="cash" class="py-2">Cash</mat-radio-button>
-        <mat-radio-button value="card" disabled class="py-2 opacity-50 cursor-not-allowed">
-          Card (Coming Soon)
-        </mat-radio-button>
-      </mat-radio-group>
-
-      <button mat-raised-button color="primary"
-        class="w-full py-3 text-sm sm:text-base font-semibold rounded-xl"
-        (click)="completeOrder()">
-        Continue
-      </button>
-    </div>
-  </ng-container>
-</div>
+    <button (click)="checkout()" [disabled]="cartService.items.length === 0"
+      class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-indigo-700 hover:to-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base">
+      Proceed to Checkout
+    </button>
+  </div>
+</ng-container>
