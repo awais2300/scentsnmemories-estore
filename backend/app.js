@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 3000 || 10255;
-var mongoConnection = process.env.mongoConnection || "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
-//"mongodb://localhost:27017/e-comm-store-db";
-// || "mongodb://scentsnmemories-azure:IRhI8N0P012RwgpEFSGc0bTSK5UwksYCq6RVNfahrRkGvYTA6Hl5yDha6SrjzwHmeYBG1J1f1hCtACDb5snFBw==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@";
+var mongoConnection = process.env.mongoConnection 
+|| "mongodb://scentsnmemories-azure:wFD9ItSQeuTmlnLBkUBtNLorleOl7JMIIDfiHtuVrgtMBZlxZd5va4IvUznCuKzZXhaeVje9JYKUACDbcN3vbA==@scentsnmemories-azure.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@scentsnmemories-azure@"
+||"mongodb://localhost:27017/e-comm-store-db";
 const cors = require("cors");
 const allowedOrigins = [
   'http://localhost:4200',
