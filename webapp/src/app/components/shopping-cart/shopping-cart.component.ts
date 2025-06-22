@@ -60,9 +60,7 @@ export class ShoppingCartComponent {
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
     address1: ['', Validators.required],
-    address2: [''],
     city: ['', Validators.required],
-    pincode: ['', Validators.required],
     paymentType: ['cash', Validators.required]  // ✅ Added this line
   });
 

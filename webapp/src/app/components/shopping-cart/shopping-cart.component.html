@@ -4,10 +4,10 @@
 
   <div class="bg-white shadow-lg rounded-xl divide-y divide-gray-200">
     <ng-container *ngFor="let item of cartItems">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 hover:bg-gray-50 rounded-xl gap-4 sm:gap-6">
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 hover:bg-gray-50 rounded-xl gap-4 sm:gap-6">
         <div class="flex items-start sm:items-center gap-4 flex-1">
-          <img [src]="item.product.images[0]"
-            alt="Product Image"
+          <img [src]="item.product.images[0]" alt="Product Image"
             class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm" />
           <div>
             <h4 class="text-lg font-semibold text-gray-900">{{ item.product.name }}</h4>
@@ -25,9 +25,11 @@
         <!-- Quantity Controls -->
         <div class="flex items-center gap-2 text-sm w-full sm:w-auto justify-start sm:justify-end">
           <span class="font-medium text-gray-800">Qty:</span>
-          <button (click)="addToCart(item.product, -1)" class="w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400">−</button>
+          <button (click)="addToCart(item.product, -1)"
+            class="w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400">−</button>
           <span class="w-6 text-center">{{ item.quantity }}</span>
-          <button (click)="addToCart(item.product, 1)" class="w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400">+</button>
+          <button (click)="addToCart(item.product, 1)"
+            class="w-8 h-8 bg-gray-300 rounded-full hover:bg-gray-400">+</button>
         </div>
       </div>
     </ng-container>
@@ -70,23 +72,15 @@
 
     <input formControlName="address1" placeholder="Address Line 1"
       class="w-full p-3 border rounded-lg focus:ring focus:ring-indigo-200" />
-    <div *ngIf="addressForm.get('address1')?.touched && addressForm.get('address1')?.invalid" class="text-red-500 text-sm">
+    <div *ngIf="addressForm.get('address1')?.touched && addressForm.get('address1')?.invalid"
+      class="text-red-500 text-sm">
       Address is required.
     </div>
-
-    <input formControlName="address2" placeholder="Address Line 2 (optional)"
-      class="w-full p-3 border rounded-lg focus:ring focus:ring-indigo-200" />
 
     <input formControlName="city" placeholder="City"
       class="w-full p-3 border rounded-lg focus:ring focus:ring-indigo-200" />
     <div *ngIf="addressForm.get('city')?.touched && addressForm.get('city')?.invalid" class="text-red-500 text-sm">
       City is required.
-    </div>
-
-    <input formControlName="pincode" placeholder="Pincode"
-      class="w-full p-3 border rounded-lg focus:ring focus:ring-indigo-200" />
-    <div *ngIf="addressForm.get('pincode')?.touched && addressForm.get('pincode')?.invalid" class="text-red-500 text-sm">
-      Pincode is required.
     </div>
 
     <div>
@@ -98,7 +92,8 @@
     </div>
 
     <div class="flex flex-col sm:flex-row justify-between gap-4 pt-4">
-      <button type="button" (click)="orderStep = 0" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded font-semibold">
+      <button type="button" (click)="orderStep = 0"
+        class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded font-semibold">
         ← Back to Cart
       </button>
       <button type="button" (click)="addAddress()"
@@ -131,9 +126,9 @@
 
     <div class="text-left text-sm text-gray-700">
       <div><strong>Name:</strong> {{ addressForm.value.name }}</div>
+      <div><strong>Email:</strong> {{ addressForm.value.email }}</div>
+      <div><strong>Address:</strong> {{ addressForm.value.address1 }}</div>
       <div><strong>Phone:</strong> {{ addressForm.value.phone }}</div>
-      <div><strong>Address:</strong> {{ addressForm.value.address1 }} {{ addressForm.value.address2 }}</div>
-      <div><strong>City:</strong> {{ addressForm.value.city }}, {{ addressForm.value.pincode }}</div>
       <div><strong>Payment:</strong> Cash on Delivery</div>
     </div>
 
